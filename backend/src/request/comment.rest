@@ -1,0 +1,13 @@
+###
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5pY29sYXNAcm9kcmlndWV6LmNvbSIsImlkIjoiNjU1ZmM1MmNiNmUwOTc2OTBhYjhkZjRhIiwiaWF0IjoxNzAwNzc3NzY0fQ.0PxZAN1LCvvDdeyax_MPp430WHtlL2vQp0Z7dv_VJik
+###
+
+### Add comment
+POST /api/comments/6561f89360772d277d390082 HTTP/1.1
+Host: localhost:3001
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+	"content": "primer comentarioo"
+}

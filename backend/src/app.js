@@ -8,6 +8,7 @@ const middleware = require("./utils/middleware")
 const userRoutes = require("./routes/user.routes")
 const authRoutes = require("./routes/auth.routes")
 const postRoutes = require("./routes/post.routes")
+const commentRoutes = require("./routes/comment.routes")
 
 const app = express()
 
@@ -24,8 +25,10 @@ app.get("/", (req, res) => {
 	res.send("Hello World!")
 })
 
-app.use("/api/users", userRoutes)
-app.use("/api/posts", postRoutes)
+app.use("/api", authRoutes)
+app.use("/api/users", middleware.userExtractor, userRoutes)
+app.use("/api/posts", middleware.userExtractor, postRoutes)
+app.use("/api/comments", middleware.userExtractor, commentRoutes)
 
 // Middlewares
 app.use(middleware.unknownEndpoint)

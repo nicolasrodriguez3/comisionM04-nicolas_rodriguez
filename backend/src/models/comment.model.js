@@ -21,6 +21,14 @@ const commentSchema = new Schema({
 	},
 })
 
+commentSchema.set("toJSON", {
+	virtuals: true,
+	versionKey: false,
+	transform: function (doc, ret) {
+		delete ret._id
+	},
+})
+
 const Comment = model("Comment", commentSchema)
 
 module.exports = Comment

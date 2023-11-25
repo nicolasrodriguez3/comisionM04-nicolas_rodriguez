@@ -25,10 +25,19 @@ const userSchema = new Schema({
 	},
 })
 
+// userSchema.set("toJSON", {
+// 	transform: (document, returnedObject) => {
+// 		delete returnedObject.__v
+// 		delete returnedObject.password
+// 	},
+// })
+
 userSchema.set("toJSON", {
-	transform: (document, returnedObject) => {
-		delete returnedObject.__v
-		delete returnedObject.password
+	virtuals: true,
+	versionKey: false,
+	transform: function (doc, ret) {
+		delete ret._id
+		delete ret.password
 	},
 })
 
