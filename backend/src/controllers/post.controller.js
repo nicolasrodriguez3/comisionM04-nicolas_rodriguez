@@ -24,29 +24,71 @@ const createPost = async (req, res) => {
 	const { user } = req
 
 	// Create a new post in the database
+	const date = Date.now()
 	const post = await Post.create({
 		title,
 		description,
 		imageUrl,
 		location,
 		createdBy: user.id,
-		createdAt: Date.now(),
+		createdAt: date,
+		modifiedAt: date,
 	})
 
 	// Return response to client
 	res.status(201).json(post)
 }
 
-const updatePost = (req, res) => {
-	// Logic to update a post by its ID based on the request body
-	// Update the post in the database
-	// Return the updated post as a response
+const updatePost = async (req, res) => {
+	const { id } = req.params
+	const { title, description, imageUrl, location } = req.body
+	const { user } = req
+
+	const postToUpdate = await Post.findById(id)
+	if (!postToUpdate) {
+		res.status(404).json({ message: "Post not found" })
+		return
+	}
+	if (postToUpdate.createdBy.toString() !== user.id) {
+		res.status(403).json({ message: "User not allowed" })
+		return
+	}
+
+	// Logic to update a post by its ID
+	const post = await Post.findByIdAndUpdate(
+		id,
+		{
+			title,
+			description,
+			imageUrl,
+			location,
+			modifiedAt: Date.now(),
+		},
+		{ new: true }
+	)
+
+	// Return response to client
+	res.json(post)
 }
 
-const deletePost = (req, res) => {
+const deletePost = async (req, res) => {
+	const { id } = req.params
+
+	const postToDelete = await Post.findById(id)
+	if (!postToDelete) {
+		res.status(404).json({ message: "Post not found" })
+		return
+	}
+	if (postToDelete.createdBy.toString() !== req.user.id) {
+		res.status(403).json({ message: "User not allowed" })
+		return
+	}
+
 	// Logic to delete a post by its ID
-	// Remove the post from the database
-	// Return a success message as a response
+	await Post.findByIdAndDelete(id)
+
+	// Return response to client
+	res.status(204).json()
 }
 
 // Export the controller functions
