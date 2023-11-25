@@ -37,12 +37,21 @@ const registerController = async (req, res) => {
 		email,
 		password: passwordHash,
 	})
+	console.log({ user })
+	try {
+		// Save user to DB
+		const savedUser = await user.save()
 
-	// Save user to DB
-	const savedUser = await user.save()
-
-	// return saved user
-	res.status(201).json(savedUser)
+		// return saved user
+		res.status(201).json(savedUser)
+	} catch (error) {
+		if (error.code === 11000) {
+			// Error de duplicado (clave única)
+			res.status(400).json({ error: "El usuario ya existe" })
+		} else {
+			next(error)
+		}
+	}
 }
 
 module.exports = {
