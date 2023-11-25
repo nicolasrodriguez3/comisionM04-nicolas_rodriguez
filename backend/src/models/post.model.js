@@ -38,6 +38,14 @@ const postSchema = new Schema({
 	],
 })
 
+postSchema.set("toJSON", {
+	virtuals: true,
+	versionKey: false,
+	transform: function (doc, ret) {
+		delete ret._id
+	},
+})
+
 const Post = model("Post", postSchema)
 
 module.exports = Post
