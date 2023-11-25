@@ -2,4 +2,3 @@
 GET /api/users
 Host: localhost:3001
 Content-Type: application/json
-
