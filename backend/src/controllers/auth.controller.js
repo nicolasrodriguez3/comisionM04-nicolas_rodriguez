@@ -20,7 +20,9 @@ const loginController = async (req, res) => {
 		id: user.id,
 	}
 
-	const token = jwt.sign(userForToken, process.env.SECRET)
+	const token = jwt.sign(userForToken, process.env.SECRET, {
+		expiresIn: 60 * 60 * 24 * 7,
+	})
 
 	res.status(200).send({ token, email: user.email, name: user.name })
 }

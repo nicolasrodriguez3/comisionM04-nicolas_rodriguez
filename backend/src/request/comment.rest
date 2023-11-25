@@ -1,5 +1,5 @@
 ###
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5pY29sYXNAcm9kcmlndWV6LmNvbSIsImlkIjoiNjU1ZmM1MmNiNmUwOTc2OTBhYjhkZjRhIiwiaWF0IjoxNzAwNzc3NzY0fQ.0PxZAN1LCvvDdeyax_MPp430WHtlL2vQp0Z7dv_VJik
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJpZCI6IjY1NjBhNzk5YjVlOWUxNzFiMTcyYjhlMiIsImlhdCI6MTcwMDk0NDM3M30.9Yp4nyxGWGSqDyXGXT9sebWDIDJhV9SLL-XC2D9Oqf
 ###
 
 ### Add comment
@@ -9,5 +9,5 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-	"content": "primer comentarioo"
+	"content": "segundo comentarioo"
 }
