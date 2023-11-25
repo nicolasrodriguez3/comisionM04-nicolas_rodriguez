@@ -2,7 +2,7 @@ const Post = require("../models/post.model")
 
 const getAllPosts = async (req, res) => {
 	// Get posts from database
-	const posts = await Post.find({}).populate("createdBy")
+	const posts = await Post.find({}).populate(["createdBy", "comments"])
 	//* si quisiera enviar solo una parte del usuario, puedo hacerlo con el segundo parámetro de populate: (populate("createdBy", "name email"))
 
 	// Return response to client
@@ -13,7 +13,7 @@ const getPostById = async (req, res) => {
 	const { id } = req.params
 
 	// Get post from database if the user is logged
-	const post = await Post.findById(id).populate("createdBy")
+	const post = await Post.findById(id).populate(["createdBy", "comments"])
 
 	// Return response to client
 	res.json(post)
@@ -65,7 +65,7 @@ const updatePost = async (req, res) => {
 			modifiedAt: Date.now(),
 		},
 		{ new: true }
-	)
+	).populate(["createdBy", "comments"])
 
 	// Return response to client
 	res.json(post)

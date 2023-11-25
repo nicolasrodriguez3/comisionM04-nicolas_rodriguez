@@ -19,6 +19,9 @@ const commentSchema = new Schema({
 		type: Date,
 		default: Date.now,
 	},
+	modifiedAt: {
+		type: Date,
+	},
 })
 
 commentSchema.set("toJSON", {

@@ -26,6 +26,9 @@ const postSchema = new Schema({
 		type: Date,
 		default: Date.now,
 	},
+	modifiedAt: {
+		type: Date,
+	},
 	likes: {
 		type: Number,
 		default: 0,
