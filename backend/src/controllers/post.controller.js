@@ -2,8 +2,20 @@ const Post = require("../models/post.model")
 
 const getAllPosts = async (req, res) => {
 	// Get posts from database
-	const posts = await Post.find({}).populate(["createdBy", "comments"])
-	//* si quisiera enviar solo una parte del usuario, puedo hacerlo con el segundo parámetro de populate: (populate("createdBy", "name email"))
+	const posts = await Post.find({})
+		.populate({
+			path: "comments",
+			populate: {
+				path: "userId",
+				select: "name email",
+			},
+			select: {
+				__v: 0,
+				postId: 0,
+			},
+		})
+		.populate("createdBy", "name email imageUrl")
+		.populate("likes", "name")
 
 	// Return response to client
 	res.json(posts)
@@ -21,8 +33,13 @@ const getPostById = async (req, res) => {
 				path: "userId",
 				select: "name email",
 			},
+			select: {
+				__v: 0,
+				postId: 0,
+			},
 		})
-		.populate("createdBy", "name email")
+		.populate("createdBy", "name email imageUrl")
+		.populate("likes", "name")
 
 	// Return response to client
 	res.json(post)
@@ -43,6 +60,10 @@ const createPost = async (req, res) => {
 		createdAt: date,
 		modifiedAt: date,
 	})
+
+	// Add post to user's posts
+	user.posts.push(post.id)
+	await user.save()
 
 	// Return response to client
 	res.status(201).json(post)

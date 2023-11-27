@@ -23,6 +23,15 @@ const userSchema = new Schema({
 		enum: ["admin", "user"],
 		default: "user",
 	},
+	posts: [
+		{
+			type: Schema.Types.ObjectId,
+			ref: "Post",
+		},
+	],
+	ImageUrl: {
+		type: String,
+	},
 })
 
 // userSchema.set("toJSON", {
