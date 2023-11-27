@@ -13,7 +13,16 @@ const getPostById = async (req, res) => {
 	const { id } = req.params
 
 	// Get post from database if the user is logged
-	const post = await Post.findById(id).populate(["createdBy", "comments"])
+	// const post = await Post.findById(id).populate(["createdBy", "comments"])
+	const post = await Post.findById(id)
+		.populate({
+			path: "comments",
+			populate: {
+				path: "userId",
+				select: "name email",
+			},
+		})
+		.populate("createdBy", "name email")
 
 	// Return response to client
 	res.json(post)
@@ -65,7 +74,15 @@ const updatePost = async (req, res) => {
 			modifiedAt: Date.now(),
 		},
 		{ new: true }
-	).populate(["createdBy", "comments"])
+	)
+		.populate({
+			path: "comments",
+			populate: {
+				path: "userId",
+				select: "name email",
+			},
+		})
+		.populate("createdBy", "name email")
 
 	// Return response to client
 	res.json(post)

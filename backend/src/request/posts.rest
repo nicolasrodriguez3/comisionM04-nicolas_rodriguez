@@ -1,6 +1,5 @@
 ###
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5pY29sYXNAcm9kcmlndWV6LmNvbSIsImlkIjoiNjU1ZmM1MmNiNmUwOTc2OTBhYjhkZjRhIiwiaWF0IjoxNzAwNzc3NzY0fQ.0PxZAN1LCvvDdeyax_MPp430WHtlL2vQp0Z7dv_VJik
-###
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJpZCI6IjY1NjQ4NzY5MmE3OGExNGZiMGRkNzYxZCIsImlhdCI6MTcwMTA4NzI1NiwiZXhwIjoxNzAxNjkyMDU2fQ.035qG3Er1FviVx8_r7MP-emKYk4IsB9sfIgIgTJW5f0
 
 ### Get all posts
 GET /api/posts HTTP/1.1
@@ -9,7 +8,7 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 ### Get a post with ID
-GET /api/posts/6561f89360772d277d390082 HTTP/1.1
+GET /api/posts/65648832b6eae6360aa46571 HTTP/1.1
 Host: localhost:3001
 Content-Type: application/json
 Authorization: Bearer {{token}}
@@ -22,7 +21,7 @@ Authorization: Bearer {{token}}
 
 {
 	"title": "Post 1",
-	"description": "Post 2",
+	"description": "Description 1",
 	"imageUrl": "https://picsum.photos/200/300",
 	"location": "Location 1"
 }

@@ -3,6 +3,20 @@ const jwt = require("jsonwebtoken")
 
 const User = require("../models/user.model")
 
+// create Token
+const createToken = (user) => {
+	const userForToken = {
+		email: user.email,
+		id: user.id,
+	}
+
+	const token = jwt.sign(userForToken, process.env.SECRET, {
+		expiresIn: 60 * 60 * 24 * 7,
+	})
+
+	return token
+}
+
 // Login controller
 const loginController = async (req, res) => {
 	const { email, password } = req.body
@@ -15,16 +29,9 @@ const loginController = async (req, res) => {
 	}
 
 	// Create token
-	const userForToken = {
-		email: user.email,
-		id: user.id,
-	}
+	const token = createToken(user)
 
-	const token = jwt.sign(userForToken, process.env.SECRET, {
-		expiresIn: 60 * 60 * 24 * 7,
-	})
-
-	res.status(200).send({ token, email: user.email, name: user.name })
+	res.status(200).send({ token, email: user.email, name: user.name, type: user.type })
 }
 
 // Register controller
@@ -39,13 +46,16 @@ const registerController = async (req, res) => {
 		email,
 		password: passwordHash,
 	})
-	console.log({ user })
+
 	try {
 		// Save user to DB
 		const savedUser = await user.save()
 
+		// Create token
+		const token = createToken(savedUser)
+
 		// return saved user
-		res.status(201).json(savedUser)
+		res.status(201).json(savedUser, token)
 	} catch (error) {
 		if (error.code === 11000) {
 			// Error de duplicado (clave única)
