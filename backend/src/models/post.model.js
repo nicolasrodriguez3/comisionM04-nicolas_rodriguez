@@ -29,10 +29,12 @@ const postSchema = new Schema({
 	modifiedAt: {
 		type: Date,
 	},
-	likes: {
-		type: Schema.Types.ObjectId,
-		ref: "User",
-	},
+	likes: [
+		{
+			type: Schema.Types.ObjectId,
+			ref: "User",
+		},
+	],
 	comments: [
 		{
 			type: Schema.Types.ObjectId,

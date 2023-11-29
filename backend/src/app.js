@@ -27,7 +27,7 @@ app.get("/", (req, res) => {
 
 app.use("/api", authRoutes)
 app.use("/api/users", middleware.userExtractor, userRoutes)
-app.use("/api/posts", middleware.userExtractor, postRoutes)
+app.use("/api/posts", postRoutes)
 app.use("/api/comments", middleware.userExtractor, commentRoutes)
 
 // Middlewares
