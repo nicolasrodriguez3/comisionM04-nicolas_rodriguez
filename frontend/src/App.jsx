@@ -6,15 +6,15 @@ import { useNavigate } from "react-router-dom"
 
 function App() {
 	const navigate = useNavigate()
-	const [card, setCard] = useState(false)
 	return (
 		<NextUIProvider navigate={navigate}>
 			<NavbarApp />
-			<button onClick={() => setCard(!card)}>Toggle Card</button>
-			<main className="max-w-3xl mx-auto">{card && <Post />}</main>
+			<main className="max-w-3xl mx-auto flex flex-col gap-4 my-8">
+				<Post />
+				<Post />
+			</main>
 		</NextUIProvider>
 	)
 }
 
 export default App
-
