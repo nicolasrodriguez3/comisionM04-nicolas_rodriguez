@@ -10,21 +10,27 @@ import { PropTypes } from "prop-types"
 import { VerticalDotsIcon } from "../assets/VerticalDotsIcon"
 import { EraseIcon } from "../assets/EraseIcon"
 import { EditIcon } from "../assets/EditIcon"
+import { calculateElapsedTime } from "../utils/calculateElapsedTime"
 
-function Comment({ text }) {
+function Comment({ userId: user, content, createdAt }) {
+	const date = new Date(createdAt)
 	return (
 		<div className="flex gap-2 w-full pb-2 ">
 			<div className="">
 				<Avatar
 					radius="full"
-					src="https://i.pravatar.cc/150?u=a04258a2462d826712d"
+					src="https://i.pravatar.cc/150"
 				/>
 			</div>
 			<div className="flex flex-col items-start grow">
-				<time className="text-small text-default-400">1 day ago</time>
+				<time
+					className="text-small text-default-400"
+					title={date.toLocaleString()}>
+					{calculateElapsedTime(new Date(date))}
+				</time>
 				<p className="text-small  text-foreground">
-					<span className="font-medium mr-1">USUARIO</span>
-					{text}
+					<span className="font-medium mr-1">{user.name}</span>
+					{content}
 				</p>
 			</div>
 			<div>
@@ -59,5 +65,9 @@ function Comment({ text }) {
 export default Comment
 
 Comment.propTypes = {
-	text: PropTypes.string.isRequired,
+	content: PropTypes.string.isRequired,
+	createdAt: PropTypes.string.isRequired,
+	userId: PropTypes.shape({
+		name: PropTypes.string.isRequired,
+	}),
 }

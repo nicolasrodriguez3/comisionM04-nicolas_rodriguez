@@ -15,18 +15,20 @@ import Comment from "./Comment"
 import { AirplaneIcon } from "../assets/AirplaneIcon"
 import LocationIcon from "../assets/LocationIcon"
 
-function Post() {
+function Post({ id, title, description, imageUrl, location, likes, comments, createdBy: user }) {
 	return (
 		<>
 			<Card className="flex flex-col bg-slate-50 dark:bg-gray-900 w-full">
-				<Image
-					removeWrapper
-					radius="none"
-					loading="lazy"
-					alt="Card background"
-					className="z-0 w-full h-full object-cover max-h-[600px]"
-					src="https://picsum.photos/800/500"
-				/>
+				{imageUrl && (
+					<Image
+						removeWrapper
+						radius="none"
+						loading="lazy"
+						alt="Card background"
+						className="z-0 w-full h-full object-cover max-h-[600px]"
+						src={imageUrl}
+					/>
+				)}
 				<CardHeader className="flex gap-4 items-center">
 					<Avatar
 						isBordered
@@ -35,14 +37,14 @@ function Post() {
 						src="https://i.pravatar.cc/150?u=a042581f4e29026024d"
 					/>
 					<div className="flex flex-col gap-1 items-start justify-center">
-						<h4 className="text-small font-semibold leading-none text-default-600">Zoey Lang</h4>
+						<h4 className="text-small font-semibold leading-none text-default-600">{user.name}</h4>
 						<h5 className="text-small tracking-tight text-default-400 flex items-center ">
-							<LocationIcon /> Ubicación
+							<LocationIcon /> {location}
 						</h5>
 					</div>
 				</CardHeader>
 				<CardBody className="flex flex-col items-start gap-4 pt-1">
-					<p>Hermoso lugar para conocer y visitar en familia o con amigos</p>
+					<p>{description}</p>
 
 					<div className="flex justify-start gap-2">
 						<div className="flex gap-2 mr-2">
@@ -61,7 +63,7 @@ function Post() {
 						</div>
 						<AvatarGroup
 							max={3}
-							total={10}
+							total={likes || 0}
 							size="sm"
 							renderCount={(count) => (
 								<p className="text-small font-medium text-foreground ms-1">+{count} likes</p>
@@ -74,8 +76,14 @@ function Post() {
 				</CardBody>
 				<CardFooter className="flex flex-col items-start gap-2">
 					<section className="w-full flex flex-col gap-2">
-						<Comment text="AMEEE ⭐⭐⭐⭐⭐" />
-						<Comment text="Me encanta este lugar, ideal para pasar el fin de semana" />
+						<h4 className="text-small font-semibold leading-none text-default-600">Comentarios</h4>
+						<Divider />
+						{comments.map((comment) => (
+							<Comment
+								key={comment.id}
+								{...comment}
+							/>
+						))}
 					</section>
 					<form className="flex gap-2 w-full">
 						<Input
