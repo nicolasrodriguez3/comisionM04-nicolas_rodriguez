@@ -9,6 +9,7 @@ const userRoutes = require("./routes/user.routes")
 const authRoutes = require("./routes/auth.routes")
 const postRoutes = require("./routes/post.routes")
 const commentRoutes = require("./routes/comment.routes")
+const fileRoutes = require("./routes/file.routes")
 
 const app = express()
 
@@ -26,6 +27,7 @@ app.get("/", (req, res) => {
 })
 
 app.use("/api", authRoutes)
+app.use("/api/files", fileRoutes)
 app.use("/api/users", middleware.userExtractor, userRoutes)
 app.use("/api/posts", postRoutes)
 app.use("/api/comments", middleware.userExtractor, commentRoutes)
