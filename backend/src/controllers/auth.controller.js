@@ -31,31 +31,32 @@ const loginController = async (req, res) => {
 	// Create token
 	const token = createToken(user)
 
-	res.status(200).send({ token, email: user.email, name: user.name, type: user.type })
+	res.status(200).send({ token, user: {email: user.email, name: user.name, type: user.type }})
 }
 
 // Register controller
-const registerController = async (req, res) => {
+const registerController = async (req, res, next) => {
 	const { name, email, password } = req.body
 
 	const saltRounds = 10
 	const passwordHash = await bcrypt.hash(password, saltRounds)
 
-	const user = new User({
-		name,
-		email,
-		password: passwordHash,
-	})
-
+	
 	try {
 		// Save user to DB
+		const user = new User({
+			name,
+			email,
+			password: passwordHash,
+		})
+		console.log({ user })
 		const savedUser = await user.save()
-
+		console.log({ savedUser })
 		// Create token
 		const token = createToken(savedUser)
 
 		// return saved user
-		res.status(201).json(savedUser, token)
+		res.status(201).json({user: savedUser, token})
 	} catch (error) {
 		if (error.code === 11000) {
 			// Error de duplicado (clave única)
