@@ -1,16 +1,19 @@
 import { useState, useEffect } from "react"
-import { Link, useLocation } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import { Input, Button } from "@nextui-org/react"
 import { useFormik } from "formik"
 import * as Yup from "yup"
-import axios from "axios"
 import { EyeSlashFilledIcon } from "../assets/EyeSlashFilledIcon"
 import { EyeFilledIcon } from "../assets/EyeFilledIcon"
+import { useAuth } from "../hooks/useAuth"
 
 function Login() {
+	const navigate = useNavigate()
+	const location = useLocation()
 	const [isRegister, setIsRegister] = useState(false)
 	const [isPasswordVisible, setIsPasswordVisible] = useState(false)
-	const location = useLocation()
+	const { login, register, error } = useAuth()
+
 
 	useEffect(() => {
 		location.pathname === "/registro" ? setIsRegister(true) : setIsRegister(false)
@@ -25,17 +28,7 @@ function Login() {
 	const title = isRegister ? "Registrate" : "Iniciar sesión"
 
 
-	const login = (values) => {
-		axios.post("http://localhost:3001/api/auth/login", values).then((res) => {
-			console.log(res)
-		})
-	}
 
-	const register = (values) => {
-		axios.post("http://localhost:3001/api/auth/register", values).then((res) => {
-			console.log(res)
-		})
-	}
 
 	const initialValues = () => ({
 					name: "",
@@ -53,17 +46,19 @@ function Login() {
 					name: Yup.string().required("Ingrese su nombre"),
 					email: Yup.string().email("Email inválido").required("Requerido"),
 					password: Yup.string().required("Requerido"),
-			  })
+				})
 
 	const formik = useFormik({
 		initialValues: initialValues(),
 		validationSchema: validationSchema(),
 		onSubmit: async (values) => {
-			console.log(values)
-			const action = isRegister ? register: login
+			const action = isRegister ? register : login
+
 			const user = await action(values)
 			console.log(user)
-			
+			if (user) {
+				navigate("/")
+			}
 		},
 	})
 
@@ -127,8 +122,8 @@ function Login() {
 						</Link>
 					)}
 				</div>
+			{error && <p className="text-danger-500 p-4 rounded-xl border border-danger-500">Error: {error}</p>}
 			</form>
-			<p></p>
 		</div>
 	)
 }
