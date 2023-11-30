@@ -9,33 +9,37 @@ import {
 	Dropdown,
 	DropdownMenu,
 	Avatar,
+	Button,
 } from "@nextui-org/react"
 import logo from "/logo.png"
+import { useAuth } from "../hooks/useAuth"
 
 const NavbarApp = () => {
+	const { user, logout } = useAuth()
 	return (
 		<Navbar
 			isBordered
 			isBlurred>
-			<NavbarBrand className="flex gap-2 items-center">
-				<img
-					src={logo}
-					alt="ViajesDev"
-					className="w-10 h-10"
-				/>
-				<p className="font-bold text-inherit">ViajesDev</p>
+			<NavbarBrand>
+				<Link
+					className="flex gap-2 items-center"
+					color="primary"
+					href="#"
+					onClick={() => {
+						window.scrollTo({ top: 0, behavior: "smooth" })
+					}}>
+					<img
+						src={logo}
+						alt="ViajesDev"
+						className="w-10 h-10"
+					/>
+					<p className="font-bold text-inherit">ViajesDev</p>
+				</Link>
 			</NavbarBrand>
 
 			<NavbarContent
 				className="hidden sm:flex gap-4"
 				justify="center">
-				<NavbarItem>
-					<Link
-						color="foreground"
-						href="#">
-						Inicio
-					</Link>
-				</NavbarItem>
 				<NavbarItem>
 					<Link
 						href="#"
@@ -45,44 +49,70 @@ const NavbarApp = () => {
 					</Link>
 				</NavbarItem>
 			</NavbarContent>
-
-			<NavbarContent
-				as="div"
-				justify="end">
-				<Dropdown placement="bottom-end">
-					<DropdownTrigger>
-						<Avatar
-							isBordered
-							as="button"
-							className="transition-transform"
-							color="secondary"
-							name="Jason Hughes"
-							size="sm"
-							src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
-						/>
-					</DropdownTrigger>
-					<DropdownMenu
-						aria-label="Profile Actions"
-						variant="flat">
-						<DropdownItem
-							key="profile"
-							className="h-14 gap-2">
-							<p className="font-semibold">Signed in as</p>
-							<p className="font-semibold">zoey@example.com</p>
-						</DropdownItem>
-						<DropdownItem
-							key="logout"
-							color="danger">
-							Mis publicaciones
-						</DropdownItem>
-						<DropdownItem
-							key="logout"
-							color="danger">
-							Log Out
-						</DropdownItem>
-					</DropdownMenu>
-				</Dropdown>
-			</NavbarContent>
+			{user ? (
+				<NavbarContent
+					as="div"
+					justify="end">
+					<Dropdown placement="bottom-end">
+						<DropdownTrigger>
+							<Avatar
+								isBordered
+								as="button"
+								className="transition-transform"
+								color="default"
+								name={user?.name}
+								size="md"
+								src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+							/>
+						</DropdownTrigger>
+						<DropdownMenu
+							aria-label="Profile Actions"
+							variant="flat">
+							<DropdownItem
+								textValue="Perfil"
+								key="profile"
+								className="h-14 gap-2">
+								<p className="font-semibold">Iniciaste sesión como</p>
+								<p className="font-semibold">{user?.email}</p>
+							</DropdownItem>
+							<DropdownItem
+								textValue="Mis publicaciones"
+								key="posts">
+								Mis publicaciones
+							</DropdownItem>
+							<DropdownItem
+								textValue="Cerrar sesión"
+								key="logout"
+								color="danger"
+								onClick={() => {
+									logout()
+								}}>
+								Log Out
+							</DropdownItem>
+						</DropdownMenu>
+					</Dropdown>
+				</NavbarContent>
+			) : (
+				<NavbarContent
+					as="div"
+					justify="end">
+					<NavbarItem>
+						<Button
+							as={Link}
+							href="/iniciar-sesion"
+							color="primary">
+							Iniciar sesión
+						</Button>
+					</NavbarItem>
+					<NavbarItem>
+						<Link
+							href="/registro"
+							color="foreground">
+							Registrarse
+						</Link>
+					</NavbarItem>
+				</NavbarContent>
+			)}
 		</Navbar>
 	)
 }

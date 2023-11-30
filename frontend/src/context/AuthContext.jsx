@@ -7,31 +7,36 @@ export const AuthContext = createContext()
 // Create the AuthProvider component
 export const AuthProvider = ({ children }) => {
 	const [user, setUser] = useState(null)
-  const [token, setToken] = useState(null)
+	const [token, setToken] = useState(null)
 	const [error, setError] = useState(null)
-  const [loading, setLoading] = useState(true)
+	const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    try {
-      const token = JSON.parse(localStorage.getItem("token"))
-      setToken(token)
+	useEffect(() => {
+		setLoading(true)
 
-      // getUserData(token)
-      //   .then((res) => setUser(res))
-      //   .catch((error) => {
-      //     console.warn("Token inválido: ", error.response.headers.mensaje)
+		const token = JSON.parse(localStorage.getItem("token"))
+		if (!token) {
+			setLoading(false)
+			return
+		}
 
-      //     setToken(null)
-      //     localStorage.removeItem("token")
-      //     return false
-      //   })
+		setToken(token)
+		axios
+			.get("http://localhost:3001/api/users/me", {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((res) => {
+				setUser(res.data)
+			})
+			.catch((err) => {
+				console.log(err)
+				setError("Ocurrió un error, intenta nuevamente")
+			})
 
-      setLoading(false)
-    } catch (error) {
-      localStorage.removeItem("token")
-      return false
-    }
-  }, [token])
+		setLoading(false)
+	}, [token])
 
 	const login = async ({ email, password }) => {
 		return axios
@@ -55,25 +60,27 @@ export const AuthProvider = ({ children }) => {
 	}
 
 	const register = async ({ name, email, password }) => {
-		return axios.post("http://localhost:3001/api/register", { name, email, password }).then((res) => {
-			setUser(res.data.user)
-			const { token } = res.data
-			localStorage.setItem("token", JSON.stringify(token))
-			setToken(token)
+		return axios
+			.post("http://localhost:3001/api/register", { name, email, password })
+			.then((res) => {
+				setUser(res.data.user)
+				const { token } = res.data
+				localStorage.setItem("token", JSON.stringify(token))
+				setToken(token)
 
-			return res.data
-		}
-		).catch((err) => {
-			console.log(err)
-			setError("Ocurrió un error, intenta nuevamente")
-		})
+				return res.data
+			})
+			.catch((err) => {
+				console.log(err)
+				setError("Ocurrió un error, intenta nuevamente")
+			})
 	}
 
 	const logout = async () => {
-    setToken(null)
-    // borrar token de localStorage
-    localStorage.removeItem("token")
-  }
+		setToken(null)
+		// borrar token de localStorage
+		localStorage.removeItem("token")
+	}
 
 	const contextValue = {
 		login,
@@ -82,7 +89,7 @@ export const AuthProvider = ({ children }) => {
 		error,
 		user,
 		token,
-		loading
+		loading,
 	}
 
 	return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>

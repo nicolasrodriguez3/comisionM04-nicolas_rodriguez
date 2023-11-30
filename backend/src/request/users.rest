@@ -1,4 +1,13 @@
+###
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBydWViYUBwcnVlYmEuY29tIiwiaWQiOiI2NTY4ZDM1NjNiZjA3YzQ5YmM3NjgzYjEiLCJpYXQiOjE3MDEzNjg2NjIsImV4cCI6MTcwMTk3MzQ2Mn0.p1S5kuV3Ccaj2epcbervdBkeJfVVPMHzRJOIfOI-GMA
+
 ### Get users
 GET /api/users
 Host: localhost:3001
 Content-Type: application/json
+
+### Get my profile
+GET /api/users/me
+Host: localhost:3001
+Content-Type: application/json
+Authorization: Bearer {{token}}
