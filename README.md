@@ -1,8 +1,30 @@
-# React + Vite
+# Desarrollador Web Fullstack | Argentina Programa - Tramo 3
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Bienvenido a ViajesDev, la plataforma donde puedes compartir y descubrir experiencias de viaje únicas.
 
-Currently, two official plugins are available:
+## Características
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Registro e Inicio de Sesión:** Crea tu cuenta para empezar a compartir tus aventuras.
+- **Creación de Publicaciones:** Comparte tus viajes con texto y fotos.
+- **Interacción de Usuarios:** Comenta las historias de otros viajeros y vota por tus favoritas.
+- **Experiencia para Visitantes No Registrados:** Explora historias sin registro, pero únete para participar activamente.
+- **Diseño Atractivo:** Interfaz limpia y agradable para una experiencia visual agradable.
+- **Perfil del Usuario:** Muestra tu historial de viajes y preferencias en tu perfil personalizado.
+
+## Cómo Empezar
+
+1. Clona el repositorio: `git clone https://github.com/nicolasrodriguez3/comisionM04-nicolas_rodriguez.git`
+2. Ingresa en la carpeta del backend: `cd backend`
+3. Instala las dependencias: `pnpm install`
+4. Configura la base de datos y variables de entorno.
+5. Ejecuta el servidor: `pnpm start`
+6. Ingresa en la carpeta del frontend: `cd ../frontend`
+7. Instala las dependencias: `pnpm install`
+8. Ejecuta el servidor: `pnpm start`
+9. Abre el navegador en `http://localhost:3000`
+
+
+## Contacto
+
+¿Preguntas o sugerencias? Contáctame en [LinkedIn](https://www.linkedin.com/in/nirodriguez/)
+
