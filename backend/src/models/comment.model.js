@@ -1,28 +1,26 @@
 const { Schema, model } = require("mongoose")
 
-const commentSchema = new Schema({
-	postId: {
-		type: Schema.Types.ObjectId,
-		ref: "Post",
-		required: true,
+const commentSchema = new Schema(
+	{
+		postId: {
+			type: Schema.Types.ObjectId,
+			ref: "Post",
+			required: true,
+		},
+		userId: {
+			type: Schema.Types.ObjectId,
+			ref: "User",
+			required: true,
+		},
+		content: {
+			type: String,
+			required: true,
+		},
 	},
-	userId: {
-		type: Schema.Types.ObjectId,
-		ref: "User",
-		required: true,
-	},
-	content: {
-		type: String,
-		required: true,
-	},
-	createdAt: {
-		type: Date,
-		default: Date.now,
-	},
-	modifiedAt: {
-		type: Date,
-	},
-})
+	{
+		timestamps: true,
+	}
+)
 
 commentSchema.set("toJSON", {
 	virtuals: true,

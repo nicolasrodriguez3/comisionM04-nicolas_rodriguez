@@ -22,13 +22,6 @@ const postSchema = new Schema({
 		ref: "User",
 		required: true,
 	},
-	createdAt: {
-		type: Date,
-		default: Date.now,
-	},
-	modifiedAt: {
-		type: Date,
-	},
 	likes: [
 		{
 			type: Schema.Types.ObjectId,
@@ -41,6 +34,9 @@ const postSchema = new Schema({
 			ref: "Comment",
 		},
 	],
+},
+{
+	timestamps: true,
 })
 
 postSchema.set("toJSON", {
