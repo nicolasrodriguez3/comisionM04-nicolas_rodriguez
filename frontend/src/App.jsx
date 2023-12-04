@@ -3,6 +3,7 @@ import { Route, Routes, useNavigate } from "react-router-dom"
 import { AuthProvider } from "./context/AuthContext"
 import Login from "./Pages/Login"
 import Home from "./Pages/Home"
+import Profile from "./Pages/Profile"
 
 function App() {
 	const navigate = useNavigate()
@@ -12,10 +13,6 @@ function App() {
 			<AuthProvider>
 			<Routes>
 				<Route
-					path="/"
-					element={<Home />}
-				/>
-				<Route
 					path="/iniciar-sesion"
 					element={<Login />}
 				/>
@@ -23,6 +20,15 @@ function App() {
 					path="/registro"
 					element={<Login />}
 				/>
+				<Route
+					path="/"
+					element={<Home />}
+				/>
+				<Route
+					path="/perfil/:id"
+					element={<Profile />}
+				/>
+
 			</Routes>
 			
 				

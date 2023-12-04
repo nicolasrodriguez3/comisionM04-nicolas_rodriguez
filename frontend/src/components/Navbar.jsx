@@ -71,9 +71,12 @@ const NavbarApp = () => {
 							<DropdownItem
 								textValue="Perfil"
 								key="profile"
-								className="h-14 gap-2">
-								<p className="font-semibold">Iniciaste sesión como</p>
-								<p className="font-semibold">{user?.email}</p>
+								className="h-14"
+								>
+									<Link href={`/perfil/${user?.id}`} className="block text-md text-foreground">
+								<p>Iniciaste sesión como</p>
+								<p className="font-semibold text-primary">{user?.email}</p>
+									</Link>
 							</DropdownItem>
 							<DropdownItem
 								textValue="Mis publicaciones"

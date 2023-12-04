@@ -14,7 +14,6 @@ function Login() {
 	const [isPasswordVisible, setIsPasswordVisible] = useState(false)
 	const { login, register, error } = useAuth()
 
-
 	useEffect(() => {
 		location.pathname === "/registro" ? setIsRegister(true) : setIsRegister(false)
 		formik.setTouched({
@@ -27,26 +26,23 @@ function Login() {
 	const toggleVisibility = () => setIsPasswordVisible(!isPasswordVisible)
 	const title = isRegister ? "Registrate" : "Iniciar sesión"
 
-
-
-
 	const initialValues = () => ({
-					name: "",
-					email: "",
-					password: "",
-				})
+		name: "",
+		email: "",
+		password: "",
+	})
 
 	const validationSchema = () =>
 		!isRegister
 			? Yup.object({
 					email: Yup.string().email("Email inválido").required("Requerido"),
 					password: Yup.string().required("Requerido"),
-			  })
+			})
 			: Yup.object({
 					name: Yup.string().required("Ingrese su nombre"),
 					email: Yup.string().email("Email inválido").required("Requerido"),
 					password: Yup.string().required("Requerido"),
-				})
+			})
 
 	const formik = useFormik({
 		initialValues: initialValues(),
@@ -122,7 +118,9 @@ function Login() {
 						</Link>
 					)}
 				</div>
-			{error && <p className="text-danger-500 p-4 rounded-xl border border-danger-500">Error: {error}</p>}
+				{error && (
+					<p className="text-danger-500 p-4 rounded-xl border border-danger-500">Error: {error}</p>
+				)}
 			</form>
 		</div>
 	)
