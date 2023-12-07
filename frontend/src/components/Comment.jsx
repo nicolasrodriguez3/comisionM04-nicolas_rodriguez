@@ -11,7 +11,8 @@ import { VerticalDotsIcon } from "../assets/VerticalDotsIcon"
 import { EraseIcon } from "../assets/EraseIcon"
 import { EditIcon } from "../assets/EditIcon"
 import { calculateElapsedTime } from "../utils/calculateElapsedTime"
-import { useAuth } from "../hooks/useAuth"
+
+const API_URL = import.meta.env.VITE_API_URL
 
 function Comment({ userId: user, content, createdAt }) {
 	console.log(user)
@@ -21,7 +22,9 @@ function Comment({ userId: user, content, createdAt }) {
 			<div className="">
 				<Avatar
 					radius="full"
-					src="https://i.pravatar.cc/150"
+					showFallback
+					name={user.name}
+					src={`${API_URL}/files${user.imageUrl}`}
 				/>
 			</div>
 			<div className="flex flex-col items-start grow">
@@ -71,5 +74,6 @@ Comment.propTypes = {
 	createdAt: PropTypes.string.isRequired,
 	userId: PropTypes.shape({
 		name: PropTypes.string.isRequired,
+		imageUrl: PropTypes.string,
 	}),
 }

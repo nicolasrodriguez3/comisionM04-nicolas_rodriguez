@@ -14,8 +14,47 @@ import { HeartIcon } from "../assets/HeartIcon"
 import Comment from "./Comment"
 import { AirplaneIcon } from "../assets/AirplaneIcon"
 import LocationIcon from "../assets/LocationIcon"
+import { useState } from "react"
+import axios from "axios"
+import { useAuth } from "../hooks/useAuth"
 
-function Post({ id, title, description, imageUrl, location, likes, comments, createdBy: user }) {
+const API_URL = import.meta.env.VITE_API_URL
+
+function Post({ id, description, imageUrl, location, likes, comments, createdBy: user }) {
+	const [postComments, setPostComments] = useState(comments)
+	const { token } = useAuth()
+	const [comment, setComment] = useState("")
+
+	const handleAddComment = (e) => {
+		e.preventDefault()
+
+		try {
+			axios.post(
+				`${API_URL}/comments/${id}`,
+				{
+					content: comment,
+				},
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}
+			)
+
+			//update comments
+			axios
+				.get(`${API_URL}/comments/${id}`, {
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				})
+				.then((response) => setPostComments(response.data))
+				.catch((err) => console.log(err))
+		} catch (err) {
+			console.error(err)
+		}
+	}
+
 	return (
 		<>
 			<Card className="flex flex-col bg-slate-50 dark:bg-gray-900 w-full">
@@ -34,7 +73,9 @@ function Post({ id, title, description, imageUrl, location, likes, comments, cre
 						isBordered
 						radius="full"
 						size="md"
-						src="https://i.pravatar.cc/150?u=a042581f4e29026024d"
+						showFallback
+						name={user.name}
+						src={`${API_URL}/files${user.imageUrl}`}
 					/>
 					<div className="flex flex-col gap-1 items-start justify-center">
 						<h4 className="text-small font-semibold leading-none text-default-600">{user.name}</h4>
@@ -78,20 +119,28 @@ function Post({ id, title, description, imageUrl, location, likes, comments, cre
 					<section className="w-full flex flex-col gap-2">
 						<h4 className="text-small font-semibold leading-none text-default-600">Comentarios</h4>
 						<Divider />
-						{comments.map((comment) => (
+						{postComments.map((comment) => (
 							<Comment
 								key={comment.id}
 								{...comment}
 							/>
 						))}
 					</section>
-					<form className="flex gap-2 w-full">
+					<form
+						className="flex gap-2 w-full"
+						onSubmit={handleAddComment}>
 						<Input
 							type="text"
 							placeholder="Comenta algo"
 							classNames={{ inputWrapper: "h-auto" }}
+							value={comment}
+							onChange={(e) => setComment(e.target.value)}
 						/>
-						<Button color="primary">Comentar</Button>
+						<Button
+							color="primary"
+							type="submit">
+							Comentar
+						</Button>
 					</form>
 				</CardFooter>
 			</Card>

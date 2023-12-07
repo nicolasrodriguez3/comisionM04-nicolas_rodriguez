@@ -7,7 +7,7 @@ const getAllPosts = async (req, res) => {
 			path: "comments",
 			populate: {
 				path: "userId",
-				select: "name email",
+				select: "name email imageUrl",
 			},
 			select: {
 				__v: 0,
@@ -31,7 +31,7 @@ const getPostById = async (req, res) => {
 			path: "comments",
 			populate: {
 				path: "userId",
-				select: "name email",
+				select: "name email imageUrl",
 			},
 			select: {
 				__v: 0,
@@ -100,7 +100,7 @@ const updatePost = async (req, res) => {
 			path: "comments",
 			populate: {
 				path: "userId",
-				select: "name email",
+				select: "name email imageUrl",
 			},
 		})
 		.populate("createdBy", "name email")

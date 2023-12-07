@@ -18,8 +18,6 @@ const createComment = async (req, res) => {
 	const { user } = req
 	const { content } = req.body
 
-	console.log({ id, user, content })
-
 	// Create a new comment in the database
 	const comment = await Comment.create({
 		postId: id,
