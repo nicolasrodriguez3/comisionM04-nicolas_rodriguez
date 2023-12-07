@@ -97,19 +97,19 @@ const NavbarApp = () => {
 					as="div"
 					justify="end">
 					<NavbarItem>
+						<Link
+							href="/registro"
+							color="foreground">
+							Registrarse
+						</Link>
+					</NavbarItem>
+					<NavbarItem>
 						<Button
 							as={Link}
 							href="/iniciar-sesion"
 							color="primary">
 							Iniciar sesión
 						</Button>
-					</NavbarItem>
-					<NavbarItem>
-						<Link
-							href="/registro"
-							color="foreground">
-							Registrarse
-						</Link>
 					</NavbarItem>
 				</NavbarContent>
 			)}
