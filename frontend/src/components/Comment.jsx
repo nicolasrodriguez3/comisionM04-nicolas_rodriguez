@@ -11,8 +11,10 @@ import { VerticalDotsIcon } from "../assets/VerticalDotsIcon"
 import { EraseIcon } from "../assets/EraseIcon"
 import { EditIcon } from "../assets/EditIcon"
 import { calculateElapsedTime } from "../utils/calculateElapsedTime"
+import { useAuth } from "../hooks/useAuth"
 
 function Comment({ userId: user, content, createdAt }) {
+	console.log(user)
 	const date = new Date(createdAt)
 	return (
 		<div className="flex gap-2 w-full pb-2 ">

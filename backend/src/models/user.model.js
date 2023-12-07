@@ -26,7 +26,7 @@ const userSchema = new Schema(
 				ref: "Post",
 			},
 		],
-		ImageUrl: {
+		imageUrl: {
 			type: String,
 		},
 	},
