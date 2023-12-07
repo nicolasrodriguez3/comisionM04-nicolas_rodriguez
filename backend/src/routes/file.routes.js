@@ -1,11 +1,13 @@
 const router = require("express").Router()
+const middleware = require("../utils/middleware")
 
-const { uploadFile, downloadFile } = require("../controllers/file.controller")
+const { uploadFile, uploadProfileImage, downloadFile } = require("../controllers/file.controller")
 
 // Route to upload an image
-router.post("/upload", uploadFile)
+router.post("/upload", middleware.userExtractor, uploadFile)
+router.post("/profile/:id", middleware.userExtractor, uploadProfileImage)
 
 // Route to get an image
-router.get("/:filename", downloadFile)
+router.get("/profile/:filename", downloadFile)
 
 module.exports = router

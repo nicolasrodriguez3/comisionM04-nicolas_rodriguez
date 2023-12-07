@@ -2,7 +2,7 @@ const router = require("express").Router()
 const commentController = require("../controllers/comment.controller")
 
 // GET all comments
-router.get("/", commentController.getAllComments)
+router.get("/:id", commentController.getAllComments)
 
 // POST a new comment
 router.post("/:id", commentController.createComment)

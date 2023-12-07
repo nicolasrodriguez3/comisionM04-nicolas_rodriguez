@@ -1,5 +1,6 @@
 import axios from "axios"
 import { createContext, useEffect, useState } from "react"
+const API_URL = import.meta.env.VITE_API_URL
 
 // Create the AuthContext
 export const AuthContext = createContext()
@@ -38,9 +39,13 @@ export const AuthProvider = ({ children }) => {
 		setLoading(false)
 	}, [token])
 
+	const updateUserInfo = (newData) => {
+		setUser({ newData, ...user })
+	}
+
 	const login = async ({ email, password }) => {
 		return axios
-			.post("http://localhost:3001/api/login", { email, password })
+			.post(`${API_URL}/login`, { email, password })
 			.then((res) => {
 				console.log(res.data)
 				setUser(res.data.user)
@@ -61,7 +66,7 @@ export const AuthProvider = ({ children }) => {
 
 	const register = async ({ name, email, password }) => {
 		return axios
-			.post("http://localhost:3001/api/register", { name, email, password })
+			.post(`${API_URL}/register`, { name, email, password })
 			.then((res) => {
 				setUser(res.data.user)
 				const { token } = res.data
@@ -78,6 +83,7 @@ export const AuthProvider = ({ children }) => {
 
 	const logout = async () => {
 		setToken(null)
+		setUser(null)
 		// borrar token de localStorage
 		localStorage.removeItem("token")
 	}
@@ -88,6 +94,7 @@ export const AuthProvider = ({ children }) => {
 		logout,
 		error,
 		user,
+		updateUserInfo,
 		token,
 		loading,
 	}
