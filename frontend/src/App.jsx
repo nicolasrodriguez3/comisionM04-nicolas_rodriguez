@@ -4,6 +4,8 @@ import { AuthProvider } from "./context/AuthContext"
 import Login from "./Pages/Login"
 import Home from "./Pages/Home"
 import Profile from "./Pages/Profile"
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
 	const navigate = useNavigate()
@@ -11,6 +13,7 @@ function App() {
 	return (
 		<NextUIProvider navigate={navigate}>
 			<AuthProvider>
+			<ToastContainer />
 			<Routes>
 				<Route
 					path="/iniciar-sesion"

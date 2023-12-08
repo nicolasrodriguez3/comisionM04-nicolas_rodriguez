@@ -15,7 +15,7 @@ const getAllPosts = async (req, res) => {
 			},
 		})
 		.populate("createdBy", "name email imageUrl")
-		.populate("likes", "name")
+		.populate("likes", "name imageUrl")
 
 	// Return response to client
 	res.json(posts)
@@ -39,7 +39,7 @@ const getPostById = async (req, res) => {
 			},
 		})
 		.populate("createdBy", "name email imageUrl")
-		.populate("likes", "name")
+		.populate("likes", "name imageUrl")
 
 	// Return response to client
 	res.json(post)

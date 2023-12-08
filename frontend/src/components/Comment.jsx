@@ -11,34 +11,38 @@ import { VerticalDotsIcon } from "../assets/VerticalDotsIcon"
 import { EraseIcon } from "../assets/EraseIcon"
 import { EditIcon } from "../assets/EditIcon"
 import { calculateElapsedTime } from "../utils/calculateElapsedTime"
+import { useAuth } from "../hooks/useAuth"
+
 
 const API_URL = import.meta.env.VITE_API_URL
 
-function Comment({ userId: user, content, createdAt }) {
-	console.log(user)
+function Comment({ id: postId, userId, content, createdAt, handleDelete }) {
 	const date = new Date(createdAt)
+	const { user } = useAuth()
+
 	return (
 		<div className="flex gap-2 w-full pb-2 ">
 			<div className="">
 				<Avatar
 					radius="full"
 					showFallback
-					name={user.name}
-					src={`${API_URL}/files${user.imageUrl}`}
+					name={userId.name}
+					src={`${API_URL}/files${userId.imageUrl}`}
 				/>
 			</div>
 			<div className="flex flex-col items-start grow">
 				<time
 					className="text-small text-default-400"
 					title={date.toLocaleString()}>
-					{calculateElapsedTime(new Date(date))}
+					{calculateElapsedTime(date)}
 				</time>
 				<p className="text-small  text-foreground">
-					<span className="font-medium mr-1">{user.name}</span>
+					<span className="font-medium mr-1">{userId.name}</span>
 					{content}
 				</p>
 			</div>
 			<div>
+				{user?.id === userId.id && (
 				<Dropdown>
 					<DropdownTrigger>
 						<Button
@@ -49,6 +53,7 @@ function Comment({ userId: user, content, createdAt }) {
 						</Button>
 					</DropdownTrigger>
 					<DropdownMenu aria-label="Acciones del comentario">
+								
 						<DropdownItem
 							key="edit"
 							endContent={<EditIcon size={24} />}>
@@ -58,11 +63,14 @@ function Comment({ userId: user, content, createdAt }) {
 							key="delete"
 							className="text-danger"
 							color="danger"
-							endContent={<EraseIcon size={24} />}>
+							endContent={<EraseIcon size={24} />}
+							onClick={() => handleDelete(postId)}
+							>
 							Borrar
 						</DropdownItem>
 					</DropdownMenu>
 				</Dropdown>
+				)}
 			</div>
 		</div>
 	)
