@@ -168,7 +168,7 @@ function Post({ id, description, imageUrl, location, likes, comments, createdBy 
 							total={postLikes.length || 0}
 							size="sm"
 							renderCount={(count) => (
-								<p className="text-small font-medium text-foreground ms-1">+{count} likes</p>
+								<p className="text-small font-medium text-foreground ms-1">{count > 1 ? `${count} likes` : `${count} like`}</p>
 							)}>
 							{postLikes.map((post) => {
 								return (

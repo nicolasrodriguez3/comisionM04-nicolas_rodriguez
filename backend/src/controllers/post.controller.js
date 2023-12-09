@@ -46,19 +46,15 @@ const getPostById = async (req, res) => {
 }
 
 const createPost = async (req, res) => {
-	const { title, description, imageUrl, location } = req.body
+	const { description, imageUrl, location } = req.body
 	const { user } = req
 
 	// Create a new post in the database
-	const date = Date.now()
 	const post = await Post.create({
-		title,
 		description,
 		imageUrl,
 		location,
-		createdBy: user.id,
-		createdAt: date,
-		modifiedAt: date,
+		createdBy: user.id
 	})
 
 	// Add post to user's posts
@@ -92,7 +88,6 @@ const updatePost = async (req, res) => {
 			description,
 			imageUrl,
 			location,
-			modifiedAt: Date.now(),
 		},
 		{ new: true }
 	)
