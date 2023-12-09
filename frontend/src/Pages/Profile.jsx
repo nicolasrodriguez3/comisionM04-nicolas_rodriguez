@@ -70,7 +70,6 @@ function Profile() {
 					src={`${API_URL}/files${user?.imageUrl}`}
 					alt="Profile"
 					className="w-40 h-40"
-					r
 				/>
 			</Badge>
 			{file && (

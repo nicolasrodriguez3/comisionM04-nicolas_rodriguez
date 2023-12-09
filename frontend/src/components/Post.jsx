@@ -45,7 +45,7 @@ function Post({ id, description, imageUrl, location, likes, comments, createdBy 
 		if (!user) return
 
 		//si no hay comentario
-		if(comment.trim() === "") return 
+		if (comment.trim() === "") return
 
 		setLoading(true)
 		try {
@@ -63,9 +63,10 @@ function Post({ id, description, imageUrl, location, likes, comments, createdBy 
 
 			//update comments
 			setPostComments(await updateComments({ id, token }))
+			setComment("")
 		} catch (err) {
 			console.error(err)
-		} finally{
+		} finally {
 			setLoading(false)
 		}
 	}
@@ -74,18 +75,19 @@ function Post({ id, description, imageUrl, location, likes, comments, createdBy 
 		try {
 			await toast.promise(
 				axios.delete(`${API_URL}/comments/${commentId}`, {
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			}),
-			{
-				pending: "Eliminando comentario",
-				success: "Comentario eliminado 🙌",
-				error: "Error al eliminar el comentario 🙁"
-			})
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}),
+				{
+					pending: "Eliminando comentario",
+					success: "Comentario eliminado 🙌",
+					error: "Error al eliminar el comentario 🙁",
+				}
+			)
 
 			//update comments
-			setPostComments(await updateComments({id, token}))
+			setPostComments(await updateComments({ id, token }))
 		} catch (err) {
 			console.error(err)
 			toast.error("Error al eliminar el comentario")
@@ -94,17 +96,21 @@ function Post({ id, description, imageUrl, location, likes, comments, createdBy 
 
 	const handleLike = async () => {
 		try {
-      const updatedPost = await axios.post(`${API_URL}/like/${id}`, {}, {
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			});
+			const updatedPost = await axios.post(
+				`${API_URL}/like/${id}`,
+				{},
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}
+			)
 
-      //todo Actualiza la información del post después de dar like
+			//todo Actualiza la información del post después de dar like
 			setPostLikes(updatedPost.data.likes)
-    } catch (error) {
-      console.error('Error al manejar el like del post', error);
-    }
+		} catch (error) {
+			console.error("Error al manejar el like del post", error)
+		}
 	}
 
 	return (
@@ -143,11 +149,17 @@ function Post({ id, description, imageUrl, location, likes, comments, createdBy 
 
 					<div className="flex justify-start gap-2">
 						<div className="flex gap-2 mr-2">
-							<Button color="secondary" size="sm" startContent={<HeartIcon size={24} />}
-							onClick={handleLike}>
+							<Button
+								color="secondary"
+								size="sm"
+								startContent={<HeartIcon size={24} />}
+								onClick={handleLike}>
 								Like
 							</Button>
-							<Button color="default" size="sm" startContent={<AirplaneIcon size={20} />}>
+							<Button
+								color="default"
+								size="sm"
+								startContent={<AirplaneIcon size={20} />}>
 								Compartir
 							</Button>
 						</div>
@@ -158,12 +170,15 @@ function Post({ id, description, imageUrl, location, likes, comments, createdBy 
 							renderCount={(count) => (
 								<p className="text-small font-medium text-foreground ms-1">+{count} likes</p>
 							)}>
-							{
-								postLikes.map(post => {
-									return <Avatar key={post.id} src={`${API_URL}/files${post.imageUrl}`} title={post.name} />
-
-								})
-							}
+							{postLikes.map((post) => {
+								return (
+									<Avatar
+										key={post.id}
+										src={`${API_URL}/files${post.imageUrl}`}
+										title={post.name}
+									/>
+								)
+							})}
 						</AvatarGroup>
 					</div>
 				</CardBody>
@@ -172,10 +187,16 @@ function Post({ id, description, imageUrl, location, likes, comments, createdBy 
 						<h4 className="text-small font-semibold leading-none text-default-600">Comentarios</h4>
 						<Divider />
 						{postComments.map((comment) => (
-							<Comment key={comment.id} handleDelete={handleDeleteComment} {...comment} />
+							<Comment
+								key={comment.id}
+								handleDelete={handleDeleteComment}
+								{...comment}
+							/>
 						))}
 					</section>
-					<form className="flex gap-2 w-full" onSubmit={handleAddComment}>
+					<form
+						className="flex gap-2 w-full"
+						onSubmit={handleAddComment}>
 						<Input
 							type="text"
 							placeholder="Comenta algo"
@@ -183,7 +204,11 @@ function Post({ id, description, imageUrl, location, likes, comments, createdBy 
 							value={comment}
 							onChange={(e) => setComment(e.target.value)}
 						/>
-						<Button color="primary" type="submit" isDisabled={!user } isLoading={loading}>
+						<Button
+							color="primary"
+							type="submit"
+							isDisabled={!user}
+							isLoading={loading}>
 							Comentar
 						</Button>
 					</form>

@@ -9,10 +9,8 @@ import {
 import { PropTypes } from "prop-types"
 import { VerticalDotsIcon } from "../assets/VerticalDotsIcon"
 import { EraseIcon } from "../assets/EraseIcon"
-import { EditIcon } from "../assets/EditIcon"
 import { calculateElapsedTime } from "../utils/calculateElapsedTime"
 import { useAuth } from "../hooks/useAuth"
-
 
 const API_URL = import.meta.env.VITE_API_URL
 
@@ -43,33 +41,26 @@ function Comment({ id: postId, userId, content, createdAt, handleDelete }) {
 			</div>
 			<div>
 				{user?.id === userId.id && (
-				<Dropdown>
-					<DropdownTrigger>
-						<Button
-							color="default"
-							className="bg-transparent"
-							isIconOnly>
-							<VerticalDotsIcon />
-						</Button>
-					</DropdownTrigger>
-					<DropdownMenu aria-label="Acciones del comentario">
-								
-						<DropdownItem
-							key="edit"
-							endContent={<EditIcon size={24} />}>
-							Editar
-						</DropdownItem>
-						<DropdownItem
-							key="delete"
-							className="text-danger"
-							color="danger"
-							endContent={<EraseIcon size={24} />}
-							onClick={() => handleDelete(postId)}
-							>
-							Borrar
-						</DropdownItem>
-					</DropdownMenu>
-				</Dropdown>
+					<Dropdown>
+						<DropdownTrigger>
+							<Button
+								color="default"
+								className="bg-transparent"
+								isIconOnly>
+								<VerticalDotsIcon />
+							</Button>
+						</DropdownTrigger>
+						<DropdownMenu aria-label="Acciones del comentario">
+							<DropdownItem
+								key="delete"
+								className="text-danger"
+								color="danger"
+								endContent={<EraseIcon size={24} />}
+								onClick={() => handleDelete(postId)}>
+								Borrar
+							</DropdownItem>
+						</DropdownMenu>
+					</Dropdown>
 				)}
 			</div>
 		</div>
@@ -78,8 +69,10 @@ function Comment({ id: postId, userId, content, createdAt, handleDelete }) {
 export default Comment
 
 Comment.propTypes = {
+	id: PropTypes.string.isRequired,
 	content: PropTypes.string.isRequired,
 	createdAt: PropTypes.string.isRequired,
+	handleDelete: PropTypes.func.isRequired,
 	userId: PropTypes.shape({
 		name: PropTypes.string.isRequired,
 		imageUrl: PropTypes.string,
