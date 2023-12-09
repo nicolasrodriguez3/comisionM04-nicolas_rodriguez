@@ -2,10 +2,13 @@ import { useEffect, useState } from "react"
 import NavbarApp from "../components/Navbar"
 import Post from "../components/Post"
 import { useAuth } from "../hooks/useAuth"
+import { NewPost } from "../components/NewPost"
+
 
 function Home() {
 	const {user} = useAuth()
 	const [posts, setPosts] = useState([])
+
 
 	useEffect(() => {
 		const getPosts = async () => {
@@ -20,6 +23,7 @@ function Home() {
 		<>
 			<NavbarApp />
 			<h1>Bienvenido {user?.name}</h1>
+		<NewPost />
 				<main className="max-w-2xl mx-auto flex flex-col gap-4 my-8">
 					{posts.map((post) => (
 						<Post
