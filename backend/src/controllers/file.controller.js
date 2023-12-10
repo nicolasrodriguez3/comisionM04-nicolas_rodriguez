@@ -2,15 +2,20 @@ const User = require("../models/user.model")
 
 const uploadFile = (req, res) => {
 	const { user } = req
+	const userId = user._id.toString()
 
 	if (!req.files) {
 		return res.status(500).send({ msg: "file is not found" })
 	}
 	// accessing the file
 	const myFile = req.files.file
+	const extension = myFile.name.split(".").pop()
+	myFile.name = `${Date.now()}-${userId}${extension}`
 
-	//  mv() method places the file inside public directory
-	myFile.mv(`${__dirname}/../uploads/${myFile.name}`, function (err) {
+
+	// Moviendo el archivo a la carpeta de uploads con el nuevo nombre
+	const uploadPath = `${__dirname}/../uploads/${myFile.name}`;
+	myFile.mv(uploadPath, function (err) {
 		if (err) {
 			console.log(err)
 			return res.status(500).send({ msg: "Error occurred" })
@@ -35,22 +40,7 @@ const uploadProfileImage = (req, res) => {
 	const myFile = req.files.file
 	const extension = myFile.name.split(".").pop()
 	myFile.name = `${userId}.${extension}`
-	console.log(myFile.name)
 
-	//  mv() method places the file inside public directory
-	// myFile.mv(`${__dirname}/../uploads/profile/${myFile.name}`, function (err) {
-	// 	if (err) {
-	// 		console.log(err)
-	// 		return res.status(500).send({ msg: "Error occurred" })
-	// 	}
-
-	// 	const path = `/profile/${myFile.name}`
-	// 	const UserUpdated = await User.findByIdAndUpdate(id, { imageUrl: path }, { new: true })
-
-	// 	// return the response with file path and name
-	// 	console.log({ UserUpdated })
-	// 	return res.end()
-	// })
 	myFile
 		.mv(`${__dirname}/../uploads/profile/${myFile.name}`)
 		.then(async () => {

@@ -21,15 +21,18 @@ import { toast } from "react-toastify"
 
 const API_URL = import.meta.env.VITE_API_URL
 
-const updateComments = ({ id, token }) => {
-	return axios
-		.get(`${API_URL}/comments/${id}`, {
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		})
-		.then((response) => response.data)
-		.catch((err) => console.log(err))
+const updateComments = async ({ id, token }) => {
+	try {
+		const response = await axios
+			.get(`${API_URL}/comments/${id}`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+		return response.data
+	} catch (err) {
+		return console.log(err)
+	}
 }
 
 function Post({ id, description, imageUrl, location, likes, comments, createdBy }) {
@@ -123,7 +126,7 @@ function Post({ id, description, imageUrl, location, likes, comments, createdBy 
 						loading="lazy"
 						alt="Card background"
 						className="z-0 w-full h-full object-cover max-h-[600px]"
-						src={imageUrl}
+						src={`${API_URL}/files${imageUrl}`}
 					/>
 				)}
 				<CardHeader className="flex gap-4 items-center">

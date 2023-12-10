@@ -9,5 +9,6 @@ router.post("/profile/:id", middleware.userExtractor, uploadProfileImage)
 
 // Route to get an image
 router.get("/profile/:filename", downloadFile)
+router.get("/:filename", downloadFile)
 
 module.exports = router

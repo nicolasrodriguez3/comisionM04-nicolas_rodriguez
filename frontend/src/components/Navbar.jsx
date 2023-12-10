@@ -14,6 +14,8 @@ import {
 import logo from "/logo.png"
 import { useAuth } from "../hooks/useAuth"
 
+const API_URL = import.meta.env.VITE_API_URL
+
 const NavbarApp = () => {
 	const { user, logout } = useAuth()
 	return (
@@ -40,14 +42,14 @@ const NavbarApp = () => {
 			<NavbarContent
 				className="hidden sm:flex gap-4"
 				justify="center">
-				<NavbarItem>
+				{/* <NavbarItem>
 					<Link
 						href="#"
 						color="foreground"
 						aria-current="page">
 						Agregar publicación
 					</Link>
-				</NavbarItem>
+				</NavbarItem> */}
 			</NavbarContent>
 			{user ? (
 				<NavbarContent
@@ -62,7 +64,7 @@ const NavbarApp = () => {
 								color="default"
 								name={user?.name}
 								size="md"
-								src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+								src={`${API_URL}/files${user.imageUrl}`}
 							/>
 						</DropdownTrigger>
 						<DropdownMenu
