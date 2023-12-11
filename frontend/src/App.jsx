@@ -7,6 +7,7 @@ import Profile from "./Pages/Profile"
 import NotFound from "./Pages/NotFound.jsx"
 import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
+import { ProtectedRoute } from "./components/ProtectedRoute.jsx"
 
 function App() {
 	const navigate = useNavigate()
@@ -28,10 +29,12 @@ function App() {
 						path="/"
 						element={<Home />}
 					/>
-					<Route
-						path="/perfil/:id"
-						element={<Profile />}
-					/>
+					<Route element={<ProtectedRoute />}>
+						<Route
+							path="/perfil/:id"
+							element={<Profile />}
+						/>
+					</Route>
 					<Route
 						path="*"
 						element={<NotFound />}

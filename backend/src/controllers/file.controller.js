@@ -12,9 +12,8 @@ const uploadFile = (req, res) => {
 	const extension = myFile.name.split(".").pop()
 	myFile.name = `${Date.now()}-${userId}${extension}`
 
-
 	// Moviendo el archivo a la carpeta de uploads con el nuevo nombre
-	const uploadPath = `${__dirname}/../uploads/${myFile.name}`;
+	const uploadPath = `${__dirname}/../uploads/${myFile.name}`
 	myFile.mv(uploadPath, function (err) {
 		if (err) {
 			console.log(err)
@@ -63,9 +62,17 @@ const downloadFile = (req, res) => {
 	// Return the image file
 	res.sendFile(imagePath, { root: __dirname + "/../" })
 }
+const downloadProfileImage = (req, res) => {
+	const filename = req.params.filename
+	const imagePath = "uploads/profile/" + filename
+
+	// Return the image file
+	res.sendFile(imagePath, { root: __dirname + "/../" })
+}
 
 module.exports = {
 	uploadFile,
 	uploadProfileImage,
 	downloadFile,
+	downloadProfileImage,
 }
