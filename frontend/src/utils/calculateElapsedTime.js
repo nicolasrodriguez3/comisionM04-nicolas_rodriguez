@@ -14,6 +14,6 @@ export function calculateElapsedTime(date) {
 	} else if (minutes > 0) {
 		return `hace ${minutes} minuto${minutes === 1 ? "" : "s"}`
 	} else {
-		return `hace ${seconds} segundo${seconds === 1 ? "" : "s"}`
+		return `hace unos segundos`
 	}
 }
