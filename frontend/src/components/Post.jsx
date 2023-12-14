@@ -13,6 +13,13 @@ import {
 	DropdownTrigger,
 	DropdownMenu,
 	DropdownItem,
+	Modal,
+	ModalContent,
+	ModalHeader,
+	ModalBody,
+	ModalFooter,
+	useDisclosure,
+	Textarea,
 } from "@nextui-org/react"
 import { HeartIcon } from "../assets/HeartIcon"
 import Comment from "./Comment"
@@ -24,6 +31,8 @@ import { useAuth } from "../hooks/useAuth"
 import { toast } from "react-toastify"
 import { VerticalDotsIcon } from "../assets/VerticalDotsIcon"
 import { EraseIcon } from "../assets/EraseIcon"
+import { useFormik } from "formik"
+import { EditIcon } from "../assets/EditIcon"
 
 const API_URL = import.meta.env.VITE_API_URL
 
@@ -40,12 +49,23 @@ const updateComments = async ({ id, token }) => {
 	}
 }
 
-function Post({ id, description, imageUrl, location, likes, comments, createdBy, handleDelete }) {
+function Post({ id, description, imageUrl, location, likes, comments, createdBy, handleDelete, handleEdit }) {
+	const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure()
 	const [postComments, setPostComments] = useState(comments)
 	const [postLikes, setPostLikes] = useState(likes)
 	const { token, user } = useAuth()
 	const [comment, setComment] = useState("")
 	const [loading, setLoading] = useState(false)
+
+	const formik = useFormik({
+		initialValues: {
+			description,
+			location,
+		},
+		onSubmit: async (values) => {
+			handleEdit(id, values)
+			onClose()
+	}})
 
 	const handleAddComment = async (e) => {
 		e.preventDefault()
@@ -155,14 +175,17 @@ function Post({ id, description, imageUrl, location, likes, comments, createdBy,
 						{user?.id === createdBy.id && (
 							<Dropdown>
 								<DropdownTrigger>
-									<Button
-										color="default"
-										className="bg-transparent"
-										isIconOnly>
+									<Button color="default" className="bg-transparent" isIconOnly>
 										<VerticalDotsIcon />
 									</Button>
 								</DropdownTrigger>
 								<DropdownMenu aria-label="Acciones del comentario">
+									<DropdownItem
+										key="edit"
+										endContent={<EditIcon size={24} />}
+										onClick={onOpen}>
+										Editar
+									</DropdownItem>
 									<DropdownItem
 										key="delete"
 										className="text-danger"
@@ -188,10 +211,7 @@ function Post({ id, description, imageUrl, location, likes, comments, createdBy,
 								onClick={handleLike}>
 								Like
 							</Button>
-							<Button
-								color="default"
-								size="sm"
-								startContent={<AirplaneIcon size={20} />}>
+							<Button color="default" size="sm" startContent={<AirplaneIcon size={20} />}>
 								Compartir
 							</Button>
 						</div>
@@ -227,16 +247,10 @@ function Post({ id, description, imageUrl, location, likes, comments, createdBy,
 							</>
 						)}
 						{postComments.map((comment) => (
-							<Comment
-								key={comment.id}
-								handleDelete={handleDeleteComment}
-								{...comment}
-							/>
+							<Comment key={comment.id} handleDelete={handleDeleteComment} {...comment} />
 						))}
 					</section>
-					<form
-						className="flex gap-2 w-full"
-						onSubmit={handleAddComment}>
+					<form className="flex gap-2 w-full" onSubmit={handleAddComment}>
 						<Input
 							type="text"
 							placeholder="Comenta algo"
@@ -244,16 +258,43 @@ function Post({ id, description, imageUrl, location, likes, comments, createdBy,
 							value={comment}
 							onChange={(e) => setComment(e.target.value)}
 						/>
-						<Button
-							color="primary"
-							type="submit"
-							isDisabled={!user}
-							isLoading={loading}>
+						<Button color="primary" type="submit" isDisabled={!user} isLoading={loading}>
 							Comentar
 						</Button>
 					</form>
 				</CardFooter>
 			</Card>
+			<Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="center" backdrop="blur">
+				<ModalContent>
+					{(onClose) => (
+						<>
+							<ModalHeader className="flex flex-col gap-1">Editar publicación</ModalHeader>
+							<form onSubmit={formik.handleSubmit}>
+								<ModalBody>
+									<Textarea
+										label="Description"
+										placeholder="Descripción"
+										isInvalid={formik.errors.description && formik.touched.description}
+										{...formik.getFieldProps("description")}></Textarea>
+									<Input
+										name="location"
+										label="Ubicación"
+										{...formik.getFieldProps("location")}
+									/>
+								</ModalBody>
+								<ModalFooter>
+									<Button color="danger" variant="light" onPress={onClose}>
+										Cancelar
+									</Button>
+									<Button type="submit" color="primary">
+										Guardar
+									</Button>
+								</ModalFooter>
+							</form>
+						</>
+					)}
+				</ModalContent>
+			</Modal>
 		</>
 	)
 }

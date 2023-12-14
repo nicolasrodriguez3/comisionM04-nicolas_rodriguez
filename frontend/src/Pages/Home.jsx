@@ -45,6 +45,35 @@ function Home() {
 		}
 	}
 
+	const handleEditPost = async (id, values) => {
+		try {
+			// Subir la imagen y obtener la URL
+			await toast.promise(
+				async () => {
+					return await axios.put(
+						`${API_URL}/posts/${id}`,
+						values,
+						{
+							headers: {
+								Authorization: `Bearer ${token}`,
+							},
+						}
+					)
+				},
+				{
+					pending: "Guardando publicación",
+					success: "Publicación actualizada con éxito",
+					error: "Ocurrió un error al editar la publicación",
+				}
+			)
+
+			getPosts()
+		} catch (error) {
+			console.error(error)
+		} 
+	}
+	
+
 	return (
 		<>
 			<NavbarApp />
@@ -56,6 +85,7 @@ function Home() {
 						key={post.id}
 						{...post}
 						handleDelete={handleDeletePost}
+						handleEdit={handleEditPost}
 					/>
 				))}
 			</main>
