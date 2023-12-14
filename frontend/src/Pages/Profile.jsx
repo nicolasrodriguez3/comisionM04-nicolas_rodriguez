@@ -3,6 +3,7 @@ import { useAuth } from "../hooks/useAuth"
 import { CameraIcon } from "../assets/CameraIcon"
 import { useState } from "react"
 import axios from "axios"
+import NavbarApp from "../components/Navbar"
 
 const API_URL = import.meta.env.VITE_API_URL
 
@@ -46,47 +47,50 @@ function Profile() {
 	}
 
 	return (
-		<main className="flex flex-col items-center w-full gap-2">
-			<Badge
-				className="mt-4 px-0"
-				content={
-					<Button
-						as={"label"}
-						isIconOnly
-						radius="full"
-						color="primary">
-						<CameraIcon />
-						<input
-							type="file"
-							name="file"
-							id="file"
-							hidden
-							accept="image/*"
-							onChange={handleFile}
-						/>
-					</Button>
-				}>
-				<Avatar
-					src={`${API_URL}/files${user?.imageUrl}`}
-					alt="Profile"
-					className="w-40 h-40"
-				/>
-			</Badge>
-			{file && (
-				<div className="flex gap-2">
-					<Button
-						color="primary"
-						onClick={uploadFile}>
-						Guardar
-					</Button>
-					<Button onClick={cancelUploadFile}>Cancelar</Button>
-				</div>
-			)}
-			<h1 className="font-semibold text-xl text-center">{user?.name}</h1>
-			<p className="text-center text-gray-600 dark:text-gray-400">
-				Miembro desde {user?.createdAt}
-			</p>
-		</main>
+		<>
+			<NavbarApp />
+			<main className="flex flex-col items-center w-full gap-2 my-8">
+				<Badge
+					className="mt-4 px-0"
+					content={
+						<Button
+							as={"label"}
+							isIconOnly
+							radius="full"
+							color="primary">
+							<CameraIcon />
+							<input
+								type="file"
+								name="file"
+								id="file"
+								hidden
+								accept="image/*"
+								onChange={handleFile}
+							/>
+						</Button>
+					}>
+					<Avatar
+						src={`${API_URL}/files${user?.imageUrl}`}
+						alt="Profile"
+						className="w-40 h-40"
+					/>
+				</Badge>
+				{file && (
+					<div className="flex gap-2">
+						<Button
+							color="primary"
+							onClick={uploadFile}>
+							Guardar
+						</Button>
+						<Button onClick={cancelUploadFile}>Cancelar</Button>
+					</div>
+				)}
+				<h1 className="font-semibold text-xl text-center">{user?.name}</h1>
+				<p className="text-center text-gray-600 dark:text-gray-400">
+					Miembro desde {new Date(user?.createdAt).toLocaleDateString()}
+				</p>
+			</main>
+		</>
 	)
 }
 export default Profile

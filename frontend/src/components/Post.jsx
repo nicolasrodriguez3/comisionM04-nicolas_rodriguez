@@ -49,7 +49,17 @@ const updateComments = async ({ id, token }) => {
 	}
 }
 
-function Post({ id, description, imageUrl, location, likes, comments, createdBy, handleDelete, handleEdit }) {
+function Post({
+	id,
+	description,
+	imageUrl,
+	location,
+	likes,
+	comments,
+	createdBy,
+	handleDelete,
+	handleEdit,
+}) {
 	const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure()
 	const [postComments, setPostComments] = useState(comments)
 	const [postLikes, setPostLikes] = useState(likes)
@@ -65,7 +75,8 @@ function Post({ id, description, imageUrl, location, likes, comments, createdBy,
 		onSubmit: async (values) => {
 			handleEdit(id, values)
 			onClose()
-	}})
+		},
+	})
 
 	const handleAddComment = async (e) => {
 		e.preventDefault()
@@ -175,7 +186,10 @@ function Post({ id, description, imageUrl, location, likes, comments, createdBy,
 						{user?.id === createdBy.id && (
 							<Dropdown>
 								<DropdownTrigger>
-									<Button color="default" className="bg-transparent" isIconOnly>
+									<Button
+										color="default"
+										className="bg-transparent"
+										isIconOnly>
 										<VerticalDotsIcon />
 									</Button>
 								</DropdownTrigger>
@@ -211,7 +225,10 @@ function Post({ id, description, imageUrl, location, likes, comments, createdBy,
 								onClick={handleLike}>
 								Like
 							</Button>
-							<Button color="default" size="sm" startContent={<AirplaneIcon size={20} />}>
+							<Button
+								color="default"
+								size="sm"
+								startContent={<AirplaneIcon size={20} />}>
 								Compartir
 							</Button>
 						</div>
@@ -247,10 +264,16 @@ function Post({ id, description, imageUrl, location, likes, comments, createdBy,
 							</>
 						)}
 						{postComments.map((comment) => (
-							<Comment key={comment.id} handleDelete={handleDeleteComment} {...comment} />
+							<Comment
+								key={comment.id}
+								handleDelete={handleDeleteComment}
+								{...comment}
+							/>
 						))}
 					</section>
-					<form className="flex gap-2 w-full" onSubmit={handleAddComment}>
+					<form
+						className="flex gap-2 w-full"
+						onSubmit={handleAddComment}>
 						<Input
 							type="text"
 							placeholder="Comenta algo"
@@ -258,13 +281,21 @@ function Post({ id, description, imageUrl, location, likes, comments, createdBy,
 							value={comment}
 							onChange={(e) => setComment(e.target.value)}
 						/>
-						<Button color="primary" type="submit" isDisabled={!user} isLoading={loading}>
+						<Button
+							color="primary"
+							type="submit"
+							isDisabled={!user}
+							isLoading={loading}>
 							Comentar
 						</Button>
 					</form>
 				</CardFooter>
 			</Card>
-			<Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="center" backdrop="blur">
+			<Modal
+				isOpen={isOpen}
+				onOpenChange={onOpenChange}
+				placement="center"
+				backdrop="blur">
 				<ModalContent>
 					{(onClose) => (
 						<>
@@ -272,8 +303,7 @@ function Post({ id, description, imageUrl, location, likes, comments, createdBy,
 							<form onSubmit={formik.handleSubmit}>
 								<ModalBody>
 									<Textarea
-										label="Description"
-										placeholder="Descripción"
+										label="Descripción"
 										isInvalid={formik.errors.description && formik.touched.description}
 										{...formik.getFieldProps("description")}></Textarea>
 									<Input
@@ -283,10 +313,15 @@ function Post({ id, description, imageUrl, location, likes, comments, createdBy,
 									/>
 								</ModalBody>
 								<ModalFooter>
-									<Button color="danger" variant="light" onPress={onClose}>
+									<Button
+										color="danger"
+										variant="light"
+										onPress={onClose}>
 										Cancelar
 									</Button>
-									<Button type="submit" color="primary">
+									<Button
+										type="submit"
+										color="primary">
 										Guardar
 									</Button>
 								</ModalFooter>

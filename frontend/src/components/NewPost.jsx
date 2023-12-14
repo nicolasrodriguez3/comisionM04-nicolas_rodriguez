@@ -1,5 +1,4 @@
 import { Image, Input, Textarea } from "@nextui-org/react"
-import { useState } from "react"
 import {
 	Modal,
 	ModalContent,
@@ -88,8 +87,16 @@ function NewPost({ updatePosts }) {
 
 	return (
 		<>
-			<Button onPress={onOpen}>Agregar publicación</Button>
-			<Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="center" backdrop="blur">
+			<Button
+				onPress={onOpen}
+				color="primary">
+				Agregar publicación
+			</Button>
+			<Modal
+				isOpen={isOpen}
+				onOpenChange={onOpenChange}
+				placement="center"
+				backdrop="blur">
 				<ModalContent>
 					{(onClose) => (
 						<>
@@ -97,7 +104,12 @@ function NewPost({ updatePosts }) {
 							<form onSubmit={formik.handleSubmit}>
 								<ModalBody>
 									{!values.image ? (
-										<input type="file" accept="image/*" onChange={handleFileChange} required />
+										<input
+											type="file"
+											accept="image/*"
+											onChange={handleFileChange}
+											required
+										/>
 									) : (
 										<div className="relative flex justify-center">
 											<Image
@@ -116,8 +128,7 @@ function NewPost({ updatePosts }) {
 										</div>
 									)}
 									<Textarea
-										label="Description"
-										placeholder="Descripción"
+										label="Descripción"
 										isRequired
 										isInvalid={formik.errors.description && formik.touched.description}
 										{...formik.getFieldProps("description")}></Textarea>
@@ -129,10 +140,15 @@ function NewPost({ updatePosts }) {
 									/>
 								</ModalBody>
 								<ModalFooter>
-									<Button color="danger" variant="light" onPress={onClose}>
+									<Button
+										color="danger"
+										variant="light"
+										onPress={onClose}>
 										Cerrar
 									</Button>
-									<Button type="submit" color="primary">
+									<Button
+										type="submit"
+										color="primary">
 										Crear publicación
 									</Button>
 								</ModalFooter>

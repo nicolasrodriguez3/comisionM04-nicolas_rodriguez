@@ -50,15 +50,11 @@ function Home() {
 			// Subir la imagen y obtener la URL
 			await toast.promise(
 				async () => {
-					return await axios.put(
-						`${API_URL}/posts/${id}`,
-						values,
-						{
-							headers: {
-								Authorization: `Bearer ${token}`,
-							},
-						}
-					)
+					return await axios.put(`${API_URL}/posts/${id}`, values, {
+						headers: {
+							Authorization: `Bearer ${token}`,
+						},
+					})
 				},
 				{
 					pending: "Guardando publicación",
@@ -70,15 +66,16 @@ function Home() {
 			getPosts()
 		} catch (error) {
 			console.error(error)
-		} 
+		}
 	}
-	
 
 	return (
 		<>
 			<NavbarApp />
-			<h1>Bienvenido {user?.name}</h1>
-			<NewPost updatePosts={getPosts} />
+			<div className="max-w-2xl mt-8 mx-auto flex justify-between items-center gap-4">
+				<h1 className="text-xl">Bienvenido {user?.name}</h1>
+				<NewPost updatePosts={getPosts} />
+			</div>
 			<main className="max-w-2xl mx-auto flex flex-col gap-4 my-8">
 				{posts.map((post) => (
 					<Post

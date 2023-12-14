@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }) => {
 			})
 			.catch((err) => {
 				console.log(err)
-				setError("Ocurrió un error, intenta nuevamente")
+				setError("Ocurrió un error al obtener los datos, intenta nuevamente")
 			})
 
 		setLoading(false)
@@ -47,7 +47,6 @@ export const AuthProvider = ({ children }) => {
 		return axios
 			.post(`${API_URL}/login`, { email, password })
 			.then((res) => {
-				console.log(res.data)
 				setUser(res.data.user)
 				const { token } = res.data
 				localStorage.setItem("token", JSON.stringify(token))

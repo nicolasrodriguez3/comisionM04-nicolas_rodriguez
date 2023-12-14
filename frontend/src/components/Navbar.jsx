@@ -13,6 +13,7 @@ import {
 } from "@nextui-org/react"
 import logo from "/logo.png"
 import { useAuth } from "../hooks/useAuth"
+import { NewPost } from "./NewPost"
 
 const API_URL = import.meta.env.VITE_API_URL
 
@@ -26,7 +27,7 @@ const NavbarApp = () => {
 				<Link
 					className="flex gap-2 items-center"
 					color="primary"
-					href="#"
+					href="/"
 					onClick={() => {
 						window.scrollTo({ top: 0, behavior: "smooth" })
 					}}>
@@ -39,18 +40,6 @@ const NavbarApp = () => {
 				</Link>
 			</NavbarBrand>
 
-			<NavbarContent
-				className="hidden sm:flex gap-4"
-				justify="center">
-				{/* <NavbarItem>
-					<Link
-						href="#"
-						color="foreground"
-						aria-current="page">
-						Agregar publicación
-					</Link>
-				</NavbarItem> */}
-			</NavbarContent>
 			{user ? (
 				<NavbarContent
 					as="div"
@@ -73,12 +62,13 @@ const NavbarApp = () => {
 							<DropdownItem
 								textValue="Perfil"
 								key="profile"
-								className="h-14"
-								>
-									<Link href={`/perfil/${user?.id}`} className="block text-md text-foreground">
-								<p>Iniciaste sesión como</p>
-								<p className="font-semibold text-primary">{user?.email}</p>
-									</Link>
+								className="h-14">
+								<Link
+									href={`/perfil/${user?.id}`}
+									className="block text-md text-foreground">
+									<p>Iniciaste sesión como</p>
+									<p className="font-semibold text-primary">{user?.email}</p>
+								</Link>
 							</DropdownItem>
 							<DropdownItem
 								textValue="Mis publicaciones"
